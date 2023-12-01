@@ -1,2 +1,2 @@
-# my-st
+# st
 My build of suckless terminal
