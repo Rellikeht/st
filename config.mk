@@ -4,13 +4,13 @@ VERSION = 0.8.4
 # Customize below to fit your system
 
 # paths
-PREFIX = /usr/local
-MANPREFIX = $(PREFIX)/share/man
+PREFIX ?= /usr/local
+MANPREFIX ?= $(PREFIX)/share/man
 
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib
 
-PKG_CONFIG = pkg-config
+PKG_CONFIG ?= pkg-config
 
 # includes and libs
 INCS = -I$(X11INC) \
@@ -33,6 +33,5 @@ STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 # compiler and linker
 # CC = c99
-CFLAGS=-O2 -pipe # -mmusl
-CC=gcc
-#CC=tcc
+CFLAGS = -O2 -pipe -march=native # -mmusl
+CC ?= gcc
