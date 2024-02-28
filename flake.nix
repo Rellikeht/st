@@ -6,14 +6,20 @@
   outputs = {
     self,
     nixpkgs,
-  }: let
-    system = "x86_64-linux";
-  in {
-    packages.x86_64-linux.default = with import nixpkgs {system = system;};
-      stdenv.mkDerivation rec {
-        name = "st";
-        src = self;
-
+    flake-utils,
+  }:
+    flake-utils.lib.eachSystem [
+      "x86_64-linux"
+      "i686-linux"
+      "aarch64-linux"
+      "armv7l-linux"
+    ] (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      name = "tabbed";
+      src = self;
+    in {
+      packages.default = pkgs.stdenv.mkDerivation rec {
+        inherit name system src;
         PREFIX = "$(out)";
         CC = pkgs.gcc;
         PKG_CONFIG = pkgs.pkg-config;
@@ -43,5 +49,5 @@
           make install
           ";
       };
-  };
+    });
 }
