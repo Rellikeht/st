@@ -1,7 +1,10 @@
 {
   description = "Rellikeht's build of suckless st";
 
-  inputs.nixpkgs.url = github:NixOS/nixpkgs;
+  inputs = {
+    nixpkgs.url = github:NixOS/nixpkgs;
+    flake-utils.url = github:numtide/flake-utils;
+  };
 
   outputs = {
     self,
@@ -15,11 +18,12 @@
       "armv7l-linux"
     ] (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      name = "tabbed";
+      name = "st";
       src = self;
     in {
       packages.default = pkgs.stdenv.mkDerivation rec {
         inherit name system src;
+
         PREFIX = "$(out)";
         CC = pkgs.gcc;
         PKG_CONFIG = pkgs.pkg-config;
