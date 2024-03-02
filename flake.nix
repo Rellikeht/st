@@ -23,7 +23,6 @@
     in {
       packages.default = pkgs.stdenv.mkDerivation rec {
         inherit name system src;
-
         PREFIX = "$(out)";
         CC = pkgs.gcc;
         PKG_CONFIG = pkgs.pkg-config;
@@ -41,17 +40,26 @@
           ncurses
         ];
 
-        buildPhase = "
-            make clean
-            make
-            ";
+        buildPhase = ''
+          make clean
+          make
+        '';
 
-        installPhase = "
-          export TERMINFO=\"$out/share/terminfo\"
+        installPhase = ''
+          export TERMINFO="$out/share/terminfo"
           mkdir -p $out/bin
           mkdir -p $TERMINFO
           make install
-          ";
+        '';
+
+        meta = with pkgs.lib; {
+          homepage = "https://st.suckless.org/";
+          description = "Suckless (simple) terminal, Rellikeht's build";
+          license = licenses.mit;
+          mainProgram = "st";
+          maintainers = ["Rellikeht"];
+          platforms = platforms.linux;
+        };
       };
     });
 }
