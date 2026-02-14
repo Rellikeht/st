@@ -49,6 +49,8 @@
         buildPhase =
           # {{{
           ''
+            sh patch.sh
+            cd patched
             make clean
             make
           '';
