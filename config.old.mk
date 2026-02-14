@@ -1,16 +1,16 @@
 # st version
-VERSION = 0.9.3
+VERSION = 0.8.4
 
 # Customize below to fit your system
 
 # paths
-PREFIX = /usr/local
-MANPREFIX = $(PREFIX)/share/man
+PREFIX ?= /usr/local
+MANPREFIX ?= $(PREFIX)/share/man
 
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib
 
-PKG_CONFIG = pkg-config
+PKG_CONFIG ?= pkg-config
 
 # includes and libs
 INCS = -I$(X11INC) \
@@ -22,7 +22,7 @@ LIBS = -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft \
 
 # flags
 STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
-STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS) -Og -g
+STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 # OpenBSD:
@@ -30,7 +30,8 @@ STLDFLAGS = $(LIBS) $(LDFLAGS)
 #LIBS = -L$(X11LIB) -lm -lX11 -lutil -lXft \
 #       `$(PKG_CONFIG) --libs fontconfig` \
 #       `$(PKG_CONFIG) --libs freetype2`
-#MANPREFIX = ${PREFIX}/man
 
 # compiler and linker
 # CC = c99
+CFLAGS ?= -O2 -pipe -march=native # -mmusl
+CC ?= gcc

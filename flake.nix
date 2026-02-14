@@ -16,12 +16,6 @@
   # }}}
     flake-utils.lib.eachSystem
     flake-utils.lib.allSystems
-    # [
-    #   "x86_64-linux"
-    #   "i686-linux"
-    #   "aarch64-linux"
-    #   "armv7l-linux"
-    # ]
     (system: let
       # {{{
       pkgs = nixpkgs.legacyPackages.${system};
@@ -76,7 +70,7 @@
           license = licenses.mit;
           mainProgram = "st";
           maintainers = ["Rellikeht"];
-          platforms = platforms.linux;
+          platforms = platforms.unix;
         }; # }}}
       };
     });

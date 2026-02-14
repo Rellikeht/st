@@ -1,5 +1,6 @@
 # st - simple terminal
 
+st is a simple terminal emulator for X which sucks less.
 
 ## Requirements
 
@@ -26,4 +27,11 @@ See the man page for additional details.
 
 ## Applied patches
 
-TODO
+### Community
+
+<!-- - scrollback-reflow-standalone-extended - TODO has segfault :( -->
+<!-- - anysize -->
+
+### Mine
+
+None currently, st is too perfect :)
