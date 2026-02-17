@@ -5,6 +5,7 @@ VERSION = 0.9.3
 
 # paths
 PREFIX ?= /usr/local
+APPPREFIX ?= $(PREFIX)/share/applications
 MANPREFIX ?= $(PREFIX)/share/man
 
 X11INC ?= /usr/X11R6/include
@@ -22,7 +23,7 @@ LIBS ?= -L$(X11LIB) -lm -lrt -lX11 -lutil -lXft \
 
 # flags
 STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
-STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS) -O2 # -Og -g
+STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS) -O2 -march=native -mtune=native
 STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 # TODO bsd

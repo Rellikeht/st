@@ -29,7 +29,8 @@
         PREFIX = "$(out)";
         CC = pkgs.stdenv.cc;
         PKG_CONFIG = pkgs.pkg-config;
-        # TERMINFO = "$out/share/terminfo";
+        impureUseNativeOptimizations = true;
+        # dontStrip = true;
         # }}}
 
         nativeBuildInputs = with pkgs; [
@@ -42,8 +43,10 @@
           xorg.libX11
           xorg.libXft
           xorg.libXinerama
-          freetype
           ncurses
+
+          # this seems to not be necessary ???
+          freetype
         ]; # }}}
 
         buildPhase =
@@ -59,9 +62,9 @@
         installPhase =
           # {{{
           ''
+            # this is weird hack, no idea why this variable can't simply 
+            # be outside this block
             export TERMINFO="$out/share/terminfo"
-            mkdir -p $out/bin
-            mkdir -p $TERMINFO
             make install
           ''; # }}}
 

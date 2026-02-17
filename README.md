@@ -34,6 +34,8 @@ See the man page for additional details.
 - scrollback-mouse
 - desktopentry
 - boxdraw
+- paste_controls
+- colorschemes - made compatible with previous
 
 ### Mine
 
