@@ -32,6 +32,8 @@ See the man page for additional details.
 - anysize
 - scrollback-ringbuffer
 - scrollback-mouse
+- desktopentry
+- boxdraw
 
 ### Mine
 

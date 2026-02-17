@@ -17,6 +17,8 @@ for patch in \
     st-anysize-20220718-baa9357.diff \
     st-scrollback-ringbuffer-0.9.2.diff \
     st-scrollback-mouse-0.9.2.diff \
+    st-desktopentry-0.8.5.diff \
+    st-boxdraw_v2-0.8.5.diff \
 
 do
     echo "Applying $patch"
