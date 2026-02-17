@@ -29,8 +29,9 @@ See the man page for additional details.
 
 ### Community
 
-<!-- - scrollback-reflow-standalone-extended - TODO has segfault :( -->
-<!-- - anysize -->
+- anysize
+- scrollback-ringbuffer
+- scrollback-mouse
 
 ### Mine
 
