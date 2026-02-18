@@ -64,8 +64,8 @@ int allowwindowops = 0;
  * near minlatency, but it waits longer for slow updates to avoid partial draw.
  * low minlatency will tear/flicker more, as it can "detect" idle too early.
  */
-static double minlatency = 2;
-static double maxlatency = 33;
+static double minlatency = 6; // 2;
+static double maxlatency = 30; // 33;
 
 /*
  * blinking timeout (set to 0 to disable blinking) for the terminal blinking
@@ -256,7 +256,7 @@ static Shortcut shortcuts[] = {
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
 	{ ControlMask,          XK_equal,       zoom,           {.f = +1} },
 	{ ControlMask,          XK_minus,       zoom,           {.f = -1} },
-	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
+	{ MODKEY|ControlMask,   XK_BackSpace,   zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
@@ -514,6 +514,10 @@ static Key key[] = {
 	{ XK_F33,           XK_NO_MOD,      "\033[20;5~",    0,    0},
 	{ XK_F34,           XK_NO_MOD,      "\033[21;5~",    0,    0},
 	{ XK_F35,           XK_NO_MOD,      "\033[23;5~",    0,    0},
+
+    // old hyper hack for emacs, no idea is this correct
+    {XK_Hyper_L,        XK_NO_MOD,      "\030@h",        0,    0},
+    {XK_Hyper_R,        XK_NO_MOD,      "\030@h",        0,    0}
 };
 
 /*
