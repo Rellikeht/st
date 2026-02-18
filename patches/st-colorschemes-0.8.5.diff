@@ -59,7 +59,7 @@ index 91ab8ca..38777fe 100644
 -	"gray90", /* default foreground colour */
 -	"black", /* default background colour */
 +typedef struct {
-+	const char* const colors[258]; /* terminal colors */
++	const char* const colors[260]; /* terminal colors */
 +	unsigned int fg;               /* foreground */
 +	unsigned int bg;               /* background */
 +	unsigned int cs;               /* cursor */
@@ -176,7 +176,7 @@ index 51049ba..3ffe333 100644
 +tupdatebgcolor(int oldbg, int newbg)
 +{
 +	for (int y = 0; y < term.row; y++) {
-+		Line line = TSCREEN.buffer[y];
++		Line line = TLINE(y);
 +		for (int x = 0; x < term.col; x++) {
 +			if (line[x].bg == oldbg)
 +				line[x].bg = newbg;
@@ -188,7 +188,7 @@ index 51049ba..3ffe333 100644
 +tupdatefgcolor(int oldfg, int newfg)
 +{
 +	for (int y = 0; y < term.row; y++) {
-+		Line line = TSCREEN.buffer[y];
++		Line line = TLINE(y);
 +		for (int x = 0; x < term.col; x++) {
 +			if (line[x].fg == oldfg)
 +				line[x].fg = newfg;
@@ -238,7 +238,7 @@ index 8a16faa..bc0a48c 100644
  			XftColorFree(xw.dpy, xw.vis, xw.cmap, cp);
  	} else {
 -		dc.collen = MAX(LEN(colorname), 256);
-+		dc.collen = 258;
++		dc.collen = 260;
  		dc.col = xmalloc(dc.collen * sizeof(Color));
  	}
  

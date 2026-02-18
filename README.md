@@ -36,7 +36,8 @@ See the man page for additional details.
 - boxdraw
 - paste_controls
 - xresources
-<!-- - colorschemes - made compatible with previous -->
+- colorschemes - made compatible with previous ones 
+  (fixed for scrollback-ringbuffer) and improved color palette
 
 ### Mine
 
