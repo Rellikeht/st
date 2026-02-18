@@ -116,46 +116,117 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 8;
 
-/* Terminal colors (16 first used in escape sequence) */
-static const char *colorname[] = {
-	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+typedef struct {
+    const char *colors[260]; /* terminal colors */
+    unsigned int fg;         /* foreground */
+    unsigned int bg;         /* background */
+    unsigned int cs;         /* cursor */
+    unsigned int rcs;        /* reverse cursor */
+} ColorScheme;
+/*
+ * Terminal colors (16 first used in escape sequence,
+ * 2 last for custom cursor color),
+ * foreground, background, cursor, reverse cursor
+ */
+static ColorScheme schemes[] = {
+    // my custom
+    {
+     {
+            "#05141a", //
+            "#ca0a2a", //
+            "#0ab230", //
+            "#b0b02a", //
+            "#1444c2", //
+            "#c020df", //
+            "#30bce2", //
+            "#aacfda", //
 
-	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
+            "#1a3248", //
+            "#ff1816", //
+            "#1fff2a", //
+            "#ffff24", //
+            "#1294ff", //
+            "#ff2bff", //
+            "#3affff", //
+            "#ffffff", //
 
-	[255] = 0,
+            [256] = "#30ffff", //
+            "#000000",         //
+            "#000108",         //
+            "#3072ff",         //
+        }, //
+        259, //
+        258, //
+        256, //
+        257, //
+    },
 
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
-	"gray90", /* default foreground colour */
-	"black", /* default background colour */
+    // TODO maybe something slightly better
+    // https//github.com/hafiz-muhammad/inferno-alacritty-theme
+    {
+     {
+            "#330000", //
+            "#ff3300", //
+            "#ff6600", //
+            "#ff9900", //
+            "#ffcc00", //
+            "#ff6600", //
+            "#ff9900", //
+            "#d9d9d9", //
+
+            "#663300", //
+            "#ff6633", //
+            "#ff9966", //
+            "#ffcc99", //
+            "#ffcc33", //
+            "#ff9966", //
+            "#ffcc99", //
+            "#d9d9d9", //
+
+            [256] = "#d9d9d9", //
+            "#270d06",         //
+            "white",           //
+            "black",           //
+        },   //
+        256, //
+        257, //
+        258, //
+        259, //
+    },
+
+    // // st (dark)
+    // {{"black", "red3", "green3", "yellow3",
+    //   "blue2", "magenta3", "cyan3", "gray90",
+    //   "gray50", "red", "green", "yellow",
+    //   "#5c5cff", "magenta", "cyan", "white",
+    //   [256]="#cccccc", "#555555"}, 7, 0, 256, 257},
+
+    // // Solarized dark
+    // {{"#073642", "#dc322f", "#859900", "#b58900",
+    //   "#268bd2", "#d33682", "#2aa198", "#eee8d5",
+    //   "#002b36", "#cb4b16", "#586e75", "#657b83",
+    //   "#839496", "#6c71c4", "#93a1a1", "#fdf6e3",
+    //   [256]="#93a1a1", "#fdf6e3"}, 12, 8, 256, 257},
+    //
+    // // Solarized light
+    // {{"#eee8d5", "#dc322f", "#859900", "#b58900",
+    //   "#268bd2", "#d33682", "#2aa198", "#073642",
+    //   "#fdf6e3", "#cb4b16", "#93a1a1", "#839496",
+    //   "#657b83", "#6c71c4", "#586e75", "#002b36",
+    //   [256]="#586e75", "#002b36"}, 12, 8, 256, 257},
 };
 
+static const char * const * colorname;
+int colorscheme = 0;
 
 /*
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 258;
-unsigned int defaultbg = 259;
-unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 256;
+unsigned int defaultbg = 257;
+unsigned int defaultcs = 258;
+static unsigned int defaultrcs = 259;
 
 /*
  * Default shape of cursor
@@ -197,36 +268,37 @@ static uint forcemousemod = ShiftMask;
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "font",         STRING,  &font },
-		{ "color0",       STRING,  &colorname[0] },
-		{ "color1",       STRING,  &colorname[1] },
-		{ "color2",       STRING,  &colorname[2] },
-		{ "color3",       STRING,  &colorname[3] },
-		{ "color4",       STRING,  &colorname[4] },
-		{ "color5",       STRING,  &colorname[5] },
-		{ "color6",       STRING,  &colorname[6] },
-		{ "color7",       STRING,  &colorname[7] },
-		{ "color8",       STRING,  &colorname[8] },
-		{ "color9",       STRING,  &colorname[9] },
-		{ "color10",      STRING,  &colorname[10] },
-		{ "color11",      STRING,  &colorname[11] },
-		{ "color12",      STRING,  &colorname[12] },
-		{ "color13",      STRING,  &colorname[13] },
-		{ "color14",      STRING,  &colorname[14] },
-		{ "color15",      STRING,  &colorname[15] },
-		{ "background",   STRING,  &colorname[259] },
-		{ "foreground",   STRING,  &colorname[258] },
-		{ "cursorColor",  STRING,  &colorname[256] },
-		{ "termname",     STRING,  &termname },
-		{ "shell",        STRING,  &shell },
-		{ "minlatency",   INTEGER, &minlatency },
-		{ "maxlatency",   INTEGER, &maxlatency },
-		{ "blinktimeout", INTEGER, &blinktimeout },
-		{ "bellvolume",   INTEGER, &bellvolume },
-		{ "tabspaces",    INTEGER, &tabspaces },
-		{ "borderpx",     INTEGER, &borderpx },
-		{ "cwscale",      FLOAT,   &cwscale },
-		{ "chscale",      FLOAT,   &chscale },
+		{ "font",               STRING,  &font },
+		{ "color0",             STRING,  &schemes[0].colors[0] },
+		{ "color1",             STRING,  &schemes[0].colors[1] },
+		{ "color2",             STRING,  &schemes[0].colors[2] },
+		{ "color3",             STRING,  &schemes[0].colors[3] },
+		{ "color4",             STRING,  &schemes[0].colors[4] },
+		{ "color5",             STRING,  &schemes[0].colors[5] },
+		{ "color6",             STRING,  &schemes[0].colors[6] },
+		{ "color7",             STRING,  &schemes[0].colors[7] },
+		{ "color8",             STRING,  &schemes[0].colors[8] },
+		{ "color9",             STRING,  &schemes[0].colors[9] },
+		{ "color10",            STRING,  &schemes[0].colors[10] },
+		{ "color11",            STRING,  &schemes[0].colors[11] },
+		{ "color12",            STRING,  &schemes[0].colors[12] },
+		{ "color13",            STRING,  &schemes[0].colors[13] },
+		{ "color14",            STRING,  &schemes[0].colors[14] },
+		{ "color15",            STRING,  &schemes[0].colors[15] },
+		{ "background",         STRING,  &schemes[0].colors[257] },
+		{ "foreground",         STRING,  &schemes[0].colors[256] },
+		{ "cursorColor",        STRING,  &schemes[0].colors[258] },
+		{ "cursorBackground",   STRING,  &schemes[0].colors[259] },
+		{ "termname",           STRING,  &termname },
+		{ "shell",              STRING,  &shell },
+		{ "minlatency",         INTEGER, &minlatency },
+		{ "maxlatency",         INTEGER, &maxlatency },
+		{ "blinktimeout",       INTEGER, &blinktimeout },
+		{ "bellvolume",         INTEGER, &bellvolume },
+		{ "tabspaces",          INTEGER, &tabspaces },
+		{ "borderpx",           INTEGER, &borderpx },
+		{ "cwscale",            FLOAT,   &cwscale },
+		{ "chscale",            FLOAT,   &chscale },
 };
 
 /*
@@ -256,12 +328,14 @@ static Shortcut shortcuts[] = {
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
 	{ ControlMask,          XK_equal,       zoom,           {.f = +1} },
 	{ ControlMask,          XK_minus,       zoom,           {.f = -1} },
-	{ MODKEY|ControlMask,   XK_BackSpace,   zoomreset,      {.f =  0} },
+	{ TERMMOD,              XK_BackSpace,   zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+	{ MODKEY,               XK_equal,       nextscheme,     {.i = +1} },
+	{ MODKEY,               XK_minus,       nextscheme,     {.i = -1} },
 	{ ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
 	{ ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
 };

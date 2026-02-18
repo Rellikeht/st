@@ -22,7 +22,7 @@ for patch in \
     st-paste_controls-0.9.2.diff \
     st-multiple-fonts.diff \
     st-xresources-20230320-45a15676.diff \
-    # st-colorschemes-0.8.5.diff \
+    st-colorschemes-0.8.5.diff \
 
 do
     echo "Applying $patch"
