@@ -1,0 +1,115 @@
+diff -up orig/config.def.h patched/config.def.h
+--- orig/config.def.h	2025-08-09 15:00:58.350298234 +0200
++++ patched/config.def.h	2026-02-18 19:40:20.696591632 +0100
+@@ -5,7 +5,10 @@
+  *
+  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
+  */
+-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
++static char *fonts[] = {
++    "MesloLGS NF:size=12:antialias=true:autohint=true",
++    "Liberation Mono:size=12:antialias=true:autohint=true",
++};
+ static int borderpx = 2;
+ 
+ /*
+Only in patched: config.h
+Only in patched: st
+Only in patched: st.o
+diff -up orig/x.c patched/x.c
+--- orig/x.c	2025-08-09 15:00:58.350298234 +0200
++++ patched/x.c	2026-02-18 19:38:12.430895777 +0100
+@@ -8,6 +8,7 @@
+ #include <time.h>
+ #include <unistd.h>
+ #include <libgen.h>
++#include <stdbool.h>
+ #include <X11/Xatom.h>
+ #include <X11/Xlib.h>
+ #include <X11/cursorfont.h>
+@@ -156,7 +157,7 @@ static void xresize(int, int);
+ static void xhints(void);
+ static int xloadcolor(int, const char *, Color *);
+ static int xloadfont(Font *, FcPattern *);
+-static void xloadfonts(const char *, double);
++static bool xloadfonts(const char *, double);
+ static void xunloadfont(Font *);
+ static void xunloadfonts(void);
+ static void xsetenv(void);
+@@ -980,7 +981,7 @@ xloadfont(Font *f, FcPattern *pattern)
+ 	return 0;
+ }
+ 
+-void
++bool
+ xloadfonts(const char *fontstr, double fontsize)
+ {
+ 	FcPattern *pattern;
+@@ -992,7 +993,7 @@ xloadfonts(const char *fontstr, double f
+ 		pattern = FcNameParse((const FcChar8 *)fontstr);
+ 
+ 	if (!pattern)
+-		die("can't open font %s\n", fontstr);
++        return false;
+ 
+ 	if (fontsize > 1) {
+ 		FcPatternDel(pattern, FC_PIXEL_SIZE);
+@@ -1018,7 +1019,7 @@ xloadfonts(const char *fontstr, double f
+ 	}
+ 
+ 	if (xloadfont(&dc.font, pattern))
+-		die("can't open font %s\n", fontstr);
++        return false;
+ 
+ 	if (usedfontsize < 0) {
+ 		FcPatternGetDouble(dc.font.match->pattern,
+@@ -1035,19 +1036,20 @@ xloadfonts(const char *fontstr, double f
+ 	FcPatternDel(pattern, FC_SLANT);
+ 	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ITALIC);
+ 	if (xloadfont(&dc.ifont, pattern))
+-		die("can't open font %s\n", fontstr);
++        return false;
+ 
+ 	FcPatternDel(pattern, FC_WEIGHT);
+ 	FcPatternAddInteger(pattern, FC_WEIGHT, FC_WEIGHT_BOLD);
+ 	if (xloadfont(&dc.ibfont, pattern))
+-		die("can't open font %s\n", fontstr);
++        return false;
+ 
+ 	FcPatternDel(pattern, FC_SLANT);
+ 	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN);
+ 	if (xloadfont(&dc.bfont, pattern))
+-		die("can't open font %s\n", fontstr);
++        return false;
+ 
+ 	FcPatternDestroy(pattern);
++    return true;
+ }
+ 
+ void
+@@ -1144,8 +1146,22 @@ xinit(int cols, int rows)
+ 	if (!FcInit())
+ 		die("could not init fontconfig.\n");
+ 
+-	usedfont = (opt_font == NULL)? font : opt_font;
+-	xloadfonts(usedfont, 0);
++    if (opt_font != NULL) {
++        if (!xloadfonts(opt_font, 0))
++            die("can't open font %s\n", opt_font);
++        usedfont = opt_font;
++    } else{
++        bool loaded = false;
++        for (int i = 0; i < sizeof(fonts)/sizeof(fonts[0]); i++) {
++            if (xloadfonts(fonts[i], 0)) {
++                usedfont = fonts[i];
++                loaded = true;
++                break;
++            }
++        }
++        if (!loaded)
++            die("can't open fonts\n");
++    }
+ 
+ 	/* colors */
+ 	xw.cmap = XDefaultColormap(xw.dpy, xw.scr);
+Only in patched: x.o

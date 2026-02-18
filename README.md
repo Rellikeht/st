@@ -35,8 +35,9 @@ See the man page for additional details.
 - desktopentry
 - boxdraw
 - paste_controls
-- colorschemes - made compatible with previous
+- xresources
+<!-- - colorschemes - made compatible with previous -->
 
 ### Mine
 
-None currently, st is too perfect :)
+- multiple-fonts - allows for multiple fallback fonts

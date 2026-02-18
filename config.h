@@ -5,7 +5,17 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:size=12:antialias=true:autohint=true";
+static char font[] = "MesloLGS NF:size=12:antialias=true:autohint=true";
+static char *fonts[] = {
+    font,
+    "MesloLGS Nerd Font:size=12:antialias=true:autohint=true",
+    "MesloLGS:size=12:antialias=true:autohint=true",
+    "MesloLGS NF:size=12",
+    "MesloLGS Nerd Font:size=12",
+    "MesloLGS:size=12",
+    "Liberation Mono:size=12:antialias=true:autohint=true",
+    "monospace:size=12",
+};
 static int borderpx = 2;
 
 /*
@@ -18,6 +28,7 @@ static int borderpx = 2;
  */
 static char *shell = "/usr/bin/env sh";
 char *utmp = NULL;
+
 /* scroll program: to enable use a string like "scroll" */
 char *scroll = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
@@ -135,6 +146,7 @@ static const char *colorname[] = {
 	"gray90", /* default foreground colour */
 	"black", /* default background colour */
 };
+
 
 /*
  * Default colors (colorname index)
