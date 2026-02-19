@@ -5,15 +5,12 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char font[] = "MesloLGS NF:size=12:antialias=true:autohint=true";
+static char font[256] = "MesloLGS:size=12:antialias=true:autohint=true";
 static char *fonts[] = {
     font,
-    "MesloLGS Nerd Font:size=12:antialias=true:autohint=true",
-    "MesloLGS:size=12:antialias=true:autohint=true",
-    "MesloLGS NF:size=12",
-    "MesloLGS Nerd Font:size=12",
     "MesloLGS:size=12",
     "Liberation Mono:size=12:antialias=true:autohint=true",
+    "Liberation Mono:size=12",
     "monospace:size=12",
 };
 static int borderpx = 2;
@@ -26,7 +23,7 @@ static int borderpx = 2;
  * 4: value of shell in /etc/passwd
  * 5: value of shell in config.h
  */
-static char *shell = "/usr/bin/env sh";
+static char shell[256] = "/usr/bin/env sh";
 char *utmp = NULL;
 
 /* scroll program: to enable use a string like "scroll" */
@@ -97,7 +94,8 @@ const int boxdraw_braille = 0;
 static int bellvolume = 0;
 
 /* default TERM value */
-char *termname = "st-256color";
+static char term_name[256] = "st-256color";
+char * const termname = term_name;
 
 /*
  * spaces per tab
@@ -268,29 +266,31 @@ static uint forcemousemod = ShiftMask;
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "font",               STRING,  &font },
-		{ "color0",             STRING,  &schemes[0].colors[0] },
-		{ "color1",             STRING,  &schemes[0].colors[1] },
-		{ "color2",             STRING,  &schemes[0].colors[2] },
-		{ "color3",             STRING,  &schemes[0].colors[3] },
-		{ "color4",             STRING,  &schemes[0].colors[4] },
-		{ "color5",             STRING,  &schemes[0].colors[5] },
-		{ "color6",             STRING,  &schemes[0].colors[6] },
-		{ "color7",             STRING,  &schemes[0].colors[7] },
-		{ "color8",             STRING,  &schemes[0].colors[8] },
-		{ "color9",             STRING,  &schemes[0].colors[9] },
-		{ "color10",            STRING,  &schemes[0].colors[10] },
-		{ "color11",            STRING,  &schemes[0].colors[11] },
-		{ "color12",            STRING,  &schemes[0].colors[12] },
-		{ "color13",            STRING,  &schemes[0].colors[13] },
-		{ "color14",            STRING,  &schemes[0].colors[14] },
-		{ "color15",            STRING,  &schemes[0].colors[15] },
-		{ "background",         STRING,  &schemes[0].colors[257] },
-		{ "foreground",         STRING,  &schemes[0].colors[256] },
-		{ "cursorColor",        STRING,  &schemes[0].colors[258] },
-		{ "cursorBackground",   STRING,  &schemes[0].colors[259] },
-		{ "termname",           STRING,  &termname },
-		{ "shell",              STRING,  &shell },
+		{ "font",               STRING,  font },
+        // TODO make colors work
+        // fucking pointer trickery can't allow this
+		// { "color0",             STRING,  schemes[0]colors[0] },
+		// { "color1",             STRING,  schemes[0].colors[1] },
+		// { "color2",             STRING,  schemes[0].colors[2] },
+		// { "color3",             STRING,  schemes[0].colors[3] },
+		// { "color4",             STRING,  schemes[0].colors[4] },
+		// { "color5",             STRING,  schemes[0].colors[5] },
+		// { "color6",             STRING,  schemes[0].colors[6] },
+		// { "color7",             STRING,  schemes[0].colors[7] },
+		// { "color8",             STRING,  schemes[0].colors[8] },
+		// { "color9",             STRING,  schemes[0].colors[9] },
+		// { "color10",            STRING,  schemes[0].colors[10] },
+		// { "color11",            STRING,  schemes[0].colors[11] },
+		// { "color12",            STRING,  schemes[0].colors[12] },
+		// { "color13",            STRING,  schemes[0].colors[13] },
+		// { "color14",            STRING,  schemes[0].colors[14] },
+		// { "color15",            STRING,  schemes[0].colors[15] },
+		// { "background",         STRING,  schemes[0].colors[257] },
+		// { "foreground",         STRING,  schemes[0].colors[256] },
+		// { "cursorColor",        STRING,  schemes[0].colors[258] },
+		// { "cursorBackground",   STRING,  schemes[0].colors[259] },
+		{ "termname",           STRING,  termname },
+		{ "shell",              STRING,  shell },
 		{ "minlatency",         INTEGER, &minlatency },
 		{ "maxlatency",         INTEGER, &maxlatency },
 		{ "blinktimeout",       INTEGER, &blinktimeout },

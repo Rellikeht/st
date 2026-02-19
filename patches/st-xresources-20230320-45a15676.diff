@@ -114,7 +114,7 @@ index aa09997..ab10269 100644
 +int
 +resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
 +{
-+	char **sdst = dst;
++	char *sdst = dst;
 +	int *idst = dst;
 +	float *fdst = dst;
 +
@@ -135,7 +135,7 @@ index aa09997..ab10269 100644
 +
 +	switch (rtype) {
 +	case STRING:
-+		*sdst = ret.addr;
++		strcpy(sdst, ret.addr);
 +		break;
 +	case INTEGER:
 +		*idst = strtoul(ret.addr, NULL, 10);

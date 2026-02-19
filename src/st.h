@@ -119,7 +119,7 @@ extern char *vtiden;
 extern wchar_t *worddelimiters;
 extern int allowaltscreen;
 extern int allowwindowops;
-extern char *termname;
+extern char * const termname;
 extern unsigned int tabspaces;
 extern unsigned int defaultfg;
 extern unsigned int defaultbg;

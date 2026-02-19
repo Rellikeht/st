@@ -13,9 +13,6 @@ diff -up orig/config.def.h patched/config.def.h
  static int borderpx = 2;
  
  /*
-Only in patched: config.h
-Only in patched: st
-Only in patched: st.o
 diff -up orig/x.c patched/x.c
 --- orig/x.c	2025-08-09 15:00:58.350298234 +0200
 +++ patched/x.c	2026-02-18 19:38:12.430895777 +0100
@@ -99,7 +96,7 @@ diff -up orig/x.c patched/x.c
 +        usedfont = opt_font;
 +    } else{
 +        bool loaded = false;
-+        for (int i = 0; i < sizeof(fonts)/sizeof(fonts[0]); i++) {
++        for (int i = 0; i < LEN(fonts); i++) {
 +            if (xloadfonts(fonts[i], 0)) {
 +                usedfont = fonts[i];
 +                loaded = true;
@@ -112,4 +109,3 @@ diff -up orig/x.c patched/x.c
  
  	/* colors */
  	xw.cmap = XDefaultColormap(xw.dpy, xw.scr);
-Only in patched: x.o
