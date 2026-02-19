@@ -35,10 +35,11 @@ See the man page for additional details.
 - desktopentry
 - boxdraw
 - paste_controls
-- xresources
+- xresources - with fixed strings handling and improved buffers in 
+  config
 - colorschemes - made compatible with previous ones 
-  (fixed for scrollback-ringbuffer) and improved color palette
+  (fixed for scrollback-ringbuffer) and improved color palette size
 
 ### Mine
 
-- multiple-fonts - allows for multiple fallback fonts
+- WIP multiple-fonts - allows for multiple fallback fonts

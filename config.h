@@ -9,6 +9,12 @@ static char font[256] = "MesloLGS:size=12:antialias=true:autohint=true";
 static char *fonts[] = {
     font,
     "MesloLGS:size=12",
+    "MesloLGS NF:size=12:antialias=true:autohint=true",
+    "MesloLGS NF:size=12",
+    "MesloLGS Nerd Font:size=12:antialias=true:autohint=true",
+    "MesloLGS Nerd Font:size=12",
+    "MesloLG S NF:size=12:antialias=true:autohint=true",
+    "MesloLG S NF:size=12",
     "Liberation Mono:size=12:antialias=true:autohint=true",
     "Liberation Mono:size=12",
     "monospace:size=12",
