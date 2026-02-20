@@ -59,7 +59,7 @@ int allowaltscreen = 1;
 
 /* allow certain non-interactive (insecure) window operations such as:
    setting the clipboard text */
-int allowwindowops = 0;
+int allowwindowops = 1;
 
 /*
  * draw latency range in ms - from new content/keypress/etc until drawing.
@@ -204,20 +204,6 @@ static ColorScheme schemes[] = {
     //   "gray50", "red", "green", "yellow",
     //   "#5c5cff", "magenta", "cyan", "white",
     //   [256]="#cccccc", "#555555"}, 7, 0, 256, 257},
-
-    // // Solarized dark
-    // {{"#073642", "#dc322f", "#859900", "#b58900",
-    //   "#268bd2", "#d33682", "#2aa198", "#eee8d5",
-    //   "#002b36", "#cb4b16", "#586e75", "#657b83",
-    //   "#839496", "#6c71c4", "#93a1a1", "#fdf6e3",
-    //   [256]="#93a1a1", "#fdf6e3"}, 12, 8, 256, 257},
-    //
-    // // Solarized light
-    // {{"#eee8d5", "#dc322f", "#859900", "#b58900",
-    //   "#268bd2", "#d33682", "#2aa198", "#073642",
-    //   "#fdf6e3", "#cb4b16", "#93a1a1", "#839496",
-    //   "#657b83", "#6c71c4", "#586e75", "#002b36",
-    //   [256]="#586e75", "#002b36"}, 12, 8, 256, 257},
 };
 
 static const char * const * colorname;
